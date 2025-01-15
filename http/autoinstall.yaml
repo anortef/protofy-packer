@@ -1,0 +1,29 @@
+#cloud-config
+autoinstall:
+  version: 1
+  locale: en_US
+  keyboard:
+    layout: "us"
+  identity:
+    hostname: Protofy
+    username: protofy
+    password: "$6$fuUf4yrDqG.h4caS$9wSQYqUAYUChv4UbvCLs1KNPFo8VFCmnmTVCr0pL/rhiBgC.jkEZOiIKFh4Rurc6u9s.Y/S6OF6oEgoWQY/RY1"
+  storage:
+    layout:
+      name: direct
+  # If you want to skip updates to the installer:
+  updater:
+    enable: false
+  # If you don't need a proxy:
+  proxy:
+    url: ""
+  # This ensures we do not prompt
+  # Tells installer not to wait on any questions
+  interactive-sections:
+    - keyboard
+    - language
+    - identity
+    - proxy
+    - storage
+
+# End of file

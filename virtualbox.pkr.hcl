@@ -26,29 +26,27 @@ variable "iso_checksum" {
 }
 
 source "virtualbox-iso" "ubuntu24" {
-  vm_name          = var.vm_name
-  guest_os_type    = "Ubuntu_64"
-  iso_url          = var.iso_url
-  iso_checksum     = var.iso_checksum
-  cpus             = 2
-  memory           = 4096
-  disk_size        = 20480
-  headless         = true
-  boot_wait        = "5s"
+  iso_url        = var.iso_url
+  iso_checksum   = var.iso_checksum
+  vm_name        = var.vm_name
+  guest_os_type  = "Ubuntu_64"
+  cpus           = 2
+  memory         = 4096
+  disk_size      = 20480
+  headless       = true
+  boot_wait      = "5s"
 
-  # Example Subiquity (autoinstall) boot command for Ubuntu Server:
+  # Packer will serve files from this directory over HTTP to the VM
+  http_directory = "http"  # place autoinstall.yaml here
+
   boot_command = [
     "<esc><esc><enter><wait>",
     "/install/vmlinuz ",
-    "auto-install/enable=true ",
-    "debconf/frontend=noninteractive ",
+    "autoinstall ",
+    "ds=nocloud-net ",
+    "cloud-config-url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/autoinstall.yaml ",
     "initrd=/install/initrd ",
-    "console-setup/ask_detect=false ",
-    "keyboard-configuration/layoutcode=us ",
-    "locale=en_US ",
-    "keyboard-configuration/modelcode=pc105 ",
-    "early-commands=\"echo protofy:protofy | chpasswd\" ",
-    " -- <enter>"
+    "--- <enter>"
   ]
 
   communicator = "ssh"
@@ -56,6 +54,7 @@ source "virtualbox-iso" "ubuntu24" {
   ssh_password = "protofy"
   ssh_timeout  = "10m"
 }
+
 
 build {
   name    = "ubuntu24-node"
