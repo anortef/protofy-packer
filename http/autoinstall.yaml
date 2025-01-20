@@ -4,6 +4,7 @@ autoinstall:
   locale: en_US
   keyboard:
     layout: "us"
+    variant: "intl"
   identity:
     hostname: Protofy
     username: protofy
@@ -11,18 +12,10 @@ autoinstall:
   storage:
     layout:
       name: direct
-  # If you want to skip updates to the installer:
   updater:
-    enable: false
-  # If you don't need a proxy:
-  proxy: {}
+    enable: true
   # This ensures we do not prompt
   # Tells installer not to wait on any questions
-  interactive-sections:
-    - keyboard
-    - language
-    - identity
-    - proxy
-    - storage
+  interactive-sections: []
 
 # End of file

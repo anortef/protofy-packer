@@ -80,7 +80,7 @@ build {
       "sudo apt-get install -y curl",
       # Install NodeJS using NodeSource script (adjust the version if needed):
       "curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -",
-      "sudo apt-get install -y nodejs",
+      "sudo apt-get install -y nodejs git",
       "node -v",
       "npm -v"
     ]
