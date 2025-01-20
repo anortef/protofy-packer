@@ -76,13 +76,14 @@ build {
 
   provisioner "shell" {
     inline = [
-      "sudo apt-get update -y",
-      "sudo apt-get install -y curl",
+      "DEBIAN_FRONTEND=noninteractive sudo apt-get update -y",
+      "DEBIAN_FRONTEND=noninteractive sudo apt-get install -y curl",
       # Install NodeJS using NodeSource script (adjust the version if needed):
       "curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -",
-      "sudo apt-get install -y nodejs git",
+      "DEBIAN_FRONTEND=noninteractive sudo apt-get install -y nodejs git",
       "node -v",
-      "npm -v"
+      "npm -v",
+      "sudo shutdown -h now"
     ]
   }
 }

@@ -12,6 +12,16 @@ autoinstall:
   storage:
     layout:
       name: direct
+  packages:
+    - openssh-server
+  late-commands:
+    - "curtin in-target -- systemctl enable ssh"
+    - "curtin in-target -- systemctl start ssh"
+    - "curtin in-target -- apt-get update -y"
+    - "curtin in-target -- apt-get install -y sudo"
+    - "curtin in-target -- usermod -aG sudo protofy || true"
+    - "echo '%protofy ALL=(ALL) NOPASSWD:ALL' | tee /target/etc/sudoers.d/99-protofy"
+    - "curtin in-target -- chmod 440 /etc/sudoers.d/99-protofy"
   updater:
     enable: true
   # This ensures we do not prompt
