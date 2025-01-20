@@ -15,8 +15,7 @@ autoinstall:
   updater:
     enable: false
   # If you don't need a proxy:
-  proxy:
-    url: ""
+  proxy: {}
   # This ensures we do not prompt
   # Tells installer not to wait on any questions
   interactive-sections:

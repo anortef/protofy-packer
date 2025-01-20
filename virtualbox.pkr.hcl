@@ -33,21 +33,35 @@ source "virtualbox-iso" "ubuntu24" {
   cpus           = 2
   memory         = 4096
   disk_size      = 20480
-  headless       = true
+  headless       = false
   boot_wait      = "5s"
 
   # Packer will serve files from this directory over HTTP to the VM
   http_directory = "http"  # place autoinstall.yaml here
 
   boot_command = [
-    "<esc><esc><enter><wait>",
-    "/install/vmlinuz ",
-    "autoinstall ",
-    "ds=nocloud-net ",
+    # Drop into the grub console or edit the menu entry (depending on the ISO)
+    "c<wait>",
+
+    # Set root if needed (some ISOs do this automatically)
+    # "set root=(cd0)<enter><wait>",
+
+    # The essential "linux" command:
+    "linux /casper/vmlinuz ",
+    "boot=casper ",                 # Tells the initrd to load from the ISO's casper filesystem
+    "ip=dhcp ",                     # If needed for networking
+    "autoinstall ",                # Subiquity: run automated install
+    "ds=nocloud-net ",             # Use NoCloud over network
     "cloud-config-url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/autoinstall.yaml ",
-    "initrd=/install/initrd ",
-    "--- <enter>"
+    "--- <enter><wait>",           # The '---' often signals end of kernel params
+
+    # The initrd
+    "initrd /casper/initrd<enter><wait>",
+
+    # Finally, boot
+    "boot<enter>"
   ]
+
 
   communicator = "ssh"
   ssh_username = "protofy"
