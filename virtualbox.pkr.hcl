@@ -71,7 +71,7 @@ source "virtualbox-iso" "ubuntu24" {
 
 
 build {
-  name    = "ubuntu24-node"
+  name    = "Protofy"
   sources = ["source.virtualbox-iso.ubuntu24"]
 
   provisioner "shell" {
@@ -83,6 +83,12 @@ build {
       "DEBIAN_FRONTEND=noninteractive sudo apt-get install -y nodejs git",
       "node -v",
       "npm -v",
+      "cd",
+      "git clone https://github.com/Protofy-xyz/Protofy.git",
+      "cd Protofy",
+      "npm i -g yarn",
+      "yarn install",
+      "yarn start",
       "sudo shutdown -h now"
     ]
   }
