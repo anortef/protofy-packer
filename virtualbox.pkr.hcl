@@ -80,7 +80,7 @@ build {
       "DEBIAN_FRONTEND=noninteractive sudo apt-get install -y curl",
       # Install NodeJS using NodeSource script (adjust the version if needed):
       "curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -",
-      "DEBIAN_FRONTEND=noninteractive sudo apt-get install -y nodejs git",
+      "DEBIAN_FRONTEND=noninteractive sudo apt-get install -y nodejs git python3-venv",
       "node -v",
       "npm -v",
       "cd",
@@ -89,7 +89,7 @@ build {
       "sudo npm i -g yarn",
       "yarn install",
       "yarn build",
-      "yarn prod-service",
+      "yarn package",
       "sudo shutdown -h now"
     ]
   }
