@@ -1,6 +1,5 @@
 packer {
   required_plugins {
-    # Ensure the virtualbox plugin is available. The exact plugin name may vary with your Packer version.
     virtualbox = {
       version = ">= 1.0.0"
       source  = "github.com/hashicorp/virtualbox"
@@ -10,18 +9,16 @@ packer {
 
 variable "vm_name" {
   type    = string
-  default = "ubuntu-24-04-node"
+  default = "Protofy"
 }
 
 variable "iso_url" {
   type    = string
   default = "https://releases.ubuntu.com/noble/ubuntu-24.04.1-live-server-amd64.iso"
-  # or daily build URL if 24.04 is not released yet
 }
 
 variable "iso_checksum" {
   type    = string
-  # You can embed the checksum type here with the prefix (e.g., "sha256:...").
   default = "sha256:e240e4b801f7bb68c20d1356b60968ad0c33a41d00d828e74ceb3364a0317be9"
 }
 
@@ -36,9 +33,7 @@ source "virtualbox-iso" "ubuntu24" {
   headless       = true
   boot_wait      = "5s"
 
-  # Packer will serve files from this directory over HTTP to the VM
-  http_directory = "http"  # place autoinstall.yaml here
-
+  http_directory = "http"
   boot_command = [
     # Drop into the grub console or edit the menu entry (depending on the ISO)
     "c<wait>",
@@ -75,23 +70,7 @@ build {
   sources = ["source.virtualbox-iso.ubuntu24"]
 
   provisioner "shell" {
-    inline = [
-      "DEBIAN_FRONTEND=noninteractive sudo apt-get update -y",
-      "DEBIAN_FRONTEND=noninteractive sudo apt-get install -y curl",
-      # Install NodeJS using NodeSource script (adjust the version if needed):
-      "curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -",
-      "DEBIAN_FRONTEND=noninteractive sudo apt-get install -y nodejs git python3-venv",
-      "node -v",
-      "npm -v",
-      "cd",
-      "git clone https://github.com/Protofy-xyz/Protofy.git",
-      "cd Protofy",
-      "sudo npm i -g yarn",
-      "yarn install",
-      "yarn build",
-      "yarn package",
-      "sudo shutdown -h now"
-    ]
+    script = "scripts/install.sh"
   }
 }
 
