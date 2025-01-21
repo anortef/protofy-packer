@@ -88,7 +88,8 @@ build {
       "cd Protofy",
       "sudo npm i -g yarn",
       "yarn install",
-      "yarn start",
+      "yarn build",
+      "yarn prod-service",
       "sudo shutdown -h now"
     ]
   }
