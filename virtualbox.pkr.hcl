@@ -33,7 +33,7 @@ source "virtualbox-iso" "ubuntu24" {
   cpus           = 2
   memory         = 4096
   disk_size      = 20480
-  headless       = false
+  headless       = true
   boot_wait      = "5s"
 
   # Packer will serve files from this directory over HTTP to the VM
@@ -86,7 +86,7 @@ build {
       "cd",
       "git clone https://github.com/Protofy-xyz/Protofy.git",
       "cd Protofy",
-      "npm i -g yarn",
+      "sudo npm i -g yarn",
       "yarn install",
       "yarn start",
       "sudo shutdown -h now"
