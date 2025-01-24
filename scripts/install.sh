@@ -16,10 +16,12 @@ sudo npm i -g yarn
 yarn install
 yarn build
 yarn package
-nohup yarn prod-service &
+# replace NODE_ENV=production pm2 start ecosystem.config.js && yarn monit with NODE_ENV=production pm2 start ecosystem.config.js in package.json
+sed -i 's/NODE_ENV=production pm2 start ecosystem.config.js \&\& yarn monit/NODE_ENV=production pm2 start ecosystem.config.js/g' package.json
+yarn prod-service
 
 # URL to check
-URL="http://localhost:8000"
+URL="http://127.0.0.1:8000"
 
 # Maximum wait time in seconds (5 minutes = 300 seconds)
 TIMEOUT=300
