@@ -20,41 +20,4 @@ yarn package
 sed -i 's/NODE_ENV=production pm2 start ecosystem.config.js \&\& yarn monit/NODE_ENV=production pm2 start ecosystem.config.js/g' package.json
 yarn prod-service
 
-# URL to check
-URL="http://127.0.0.1:8000"
-
-# Maximum wait time in seconds (5 minutes = 300 seconds)
-TIMEOUT=300
-
-# Interval (in seconds) between checks
-INTERVAL=5
-
-# Record the start time
-START_TIME=$(date +%s)
-
-while true; do
-    # Perform the curl request silently, capturing only the HTTP status code
-    STATUS_CODE=$(curl -vvv -s -o /dev/null -w "%{http_code}" "$URL")
-
-    # Check if the status code is 200
-    if [ "$STATUS_CODE" -eq 200 ]; then
-        echo "Got 200! Exiting..."
-        break
-    fi
-
-    # Calculate elapsed time
-    CURRENT_TIME=$(date +%s)
-    ELAPSED=$(( CURRENT_TIME - START_TIME ))
-
-    # If we've reached or exceeded the timeout, stop
-    if [ "$ELAPSED" -ge "$TIMEOUT" ]; then
-        echo "Timed out after $ELAPSED seconds without receiving 200. Exiting..."
-        break
-    fi
-
-    # Otherwise, wait for the specified interval before trying again
-    sleep "$INTERVAL"
-done
-
-
 sudo shutdown -h now
